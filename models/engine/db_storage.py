@@ -24,13 +24,6 @@ def metadata_create_all(engine):
     all classes that inherit from Base must be
     imported before calling create_all()
     '''
-    from models.base_model import Base
-    from models.user import User
-    from models.state import State
-    from models.city import City
-    from models.place import Place
-    from models.amenity import Amenity
-    from models.review import Review
     metadata = Base.metadata
     metadata.create_all(engine)
     return metadata
