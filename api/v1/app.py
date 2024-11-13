@@ -6,6 +6,7 @@ This module defines a flask web app
 
 from api.v1.views import app_views
 from flask import Flask, jsonify
+from flask import Blueprint
 from models import storage
 from os import getenv
 from flask_cors import CORS
