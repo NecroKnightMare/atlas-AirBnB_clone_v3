@@ -13,22 +13,6 @@ from models.base_model import Base
 from sqlalchemy import Column, String
 import models
 
-class Amenity(BaseModel, Base):
-    """_summary_
-
-    Args:
-        BaseModel (_type_): _description_
-        Base (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """
-    __tablename__ = 'amenities'
-    
-    if hasattr(models, 'storage_type') and models.storage_type == "db":
-        name = Column(String(128), nullable=False)
-    else:
-        name = ""
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'], strict_slashes=False)
 def delete_amenity(amenity_id):
