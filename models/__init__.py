@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+import storage
 
 storage_type = os.environ.get('HBNB_TYPE_STORAGE', 'file')
 db = os.environ.get('HBNB_ENV', 'test')
