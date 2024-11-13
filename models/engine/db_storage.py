@@ -26,12 +26,12 @@ def metadata_create_all(engine):
     metadata = Base.metadata
     metadata.create_all(engine)
     return metadata
-
+    
+    classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
 
 class DBStorage:
     # __objects = {}
-    classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
     __engine = None
     __session = None
     __session_generator = None
