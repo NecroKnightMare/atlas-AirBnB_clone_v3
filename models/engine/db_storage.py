@@ -35,14 +35,6 @@ class DBStorage:
     __session = None
     __session_generator = None
     __db_url = None
-    __classes = {
-            'User': User,
-            'State': State,
-            'City': City,
-            'Place': Place,
-            'Amenity': Amenity,
-            'Review': Review
-            }
 
     def __init__(self):
         env = os.environ.get('HBNB_ENV')
@@ -53,6 +45,14 @@ class DBStorage:
 
         self.__db_url = "mysql+mysqldb://{}:{}@{}/{}".format(
                 env_user, env_user_pwd, env_host, env_db)
+        self.__classes = {
+            'User': User,
+            'State': State,
+            'City': City,
+            'Place': Place,
+            'Amenity': Amenity,
+            'Review': Review
+            }
 
         self.__engine = create_engine(self.__db_url, pool_pre_ping=True)
         metadata = metadata_create_all(self.__engine)
@@ -146,7 +146,7 @@ class DBStorage:
         Returns the object based on the class and its ID,
         or None if not found.
         """
-        if cls in classes.values():
+        if cls in self.__classes.values():
             objs = self.all(cls)
             for obj in objs.values():
                 if obj.id == id:
