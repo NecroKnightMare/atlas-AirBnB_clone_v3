@@ -11,6 +11,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+
 class BaseModel:
     '''
     calls models inside of BaseModel to avoid circular import error
@@ -24,7 +25,6 @@ class BaseModel:
                 Column: updated_at - timestamp for when object is updated
                     cannot be null
     '''
-
 
     from models import storage_type
     storage_type = storage_type
