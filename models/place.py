@@ -148,5 +148,5 @@ class Place(BaseModel, Base):
     def amenities(self, amenity):
         from models import Amenity
         if (isinstance(amenity, Amenity) and
-            amenity.id not in self.amenity_ids):
-        amenity_ids.append(amenity.id)
+                amenity.id not in self.amenity_ids):
+            amenity_ids.append(amenity.id)
