@@ -18,6 +18,7 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 
+
 def metadata_create_all(engine):
     '''
     all classes that inherit from Base must be
@@ -33,7 +34,6 @@ def metadata_create_all(engine):
     metadata = Base.metadata
     metadata.create_all(engine)
     return metadata
-    
 
 
 class DBStorage:
@@ -66,7 +66,7 @@ class DBStorage:
         self.__session_generator = sessionmaker(
                 self.__engine, expire_on_commit=False)
         self.__session_generator = scoped_session(self.__session_generator)
-        
+
         if env == "test":
             metadata.drop_all(self.__engine)
         self.__session = self.__session_generator()
@@ -147,7 +147,7 @@ class DBStorage:
             key = self.construct_key(entry)
             dictionary.update({key: entry})
         return dictionary
-  
+
     def get(self, cls, id):
         """
         Returns the object based on the class and its ID,
