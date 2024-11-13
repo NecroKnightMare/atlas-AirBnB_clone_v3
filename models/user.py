@@ -6,6 +6,8 @@ that inherits from basemodel and base
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+import models:wq
+
 
 
 class User(BaseModel, Base):
@@ -19,7 +21,7 @@ class User(BaseModel, Base):
 
     __tablename__ = 'users'
 
-    if BaseModel.storage_type == 'db':
+    if models.storage_type == 'db':
         email = Column(
                 String(128),
                 nullable=False)
