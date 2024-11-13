@@ -27,8 +27,7 @@ def metadata_create_all(engine):
     metadata.create_all(engine)
     return metadata
     
-    classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+
 
 class DBStorage:
     # __objects = {}
@@ -47,11 +46,21 @@ class DBStorage:
         self.__db_url = "mysql+mysqldb://{}:{}@{}/{}".format(
                 env_user, env_user_pwd, env_host, env_db)
 
+        self.__classes = {
+                'User': User,
+                'State': State,
+                'City': City,
+                'Place': Place,
+                'Amenity': Amenity,
+                'Review': Review
+                }
+
         self.__engine = create_engine(self.__db_url, pool_pre_ping=True)
         metadata = metadata_create_all(self.__engine)
         self.__session_generator = sessionmaker(
                 self.__engine, expire_on_commit=False)
         self.__session_generator = scoped_session(self.__session_generator)
+        
         if env == "test":
             metadata.drop_all(self.__engine)
         self.__session = self.__session_generator()
