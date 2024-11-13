@@ -28,8 +28,6 @@ class FileStorage:
                 'Amenity': Amenity,
                 'Review': Review
                 }
-        classes = {"Amenity": Amenity, "City": City,
-                "Place": Place, "Review": Review, "State": State, "User": User}
 
     def all(self, search_class=None):
         """ returns a dictionary of objects """
@@ -107,7 +105,7 @@ class FileStorage:
         Returns the object based on the class name and its ID, or
         None if not found
         """
-        if cls not in classes.values():
+        if cls not in self.__classes.values():
             return None
 
         all_cls = models.storage.all(cls)
@@ -125,8 +123,8 @@ class FileStorage:
 
         if not cls:
             count = 0
-            for clas in all_class:
-                count += len(models.storage.all(clas).values())
+            for clas in self.__classes.values():
+                count += len(self.all(clas).values())
         else:
             count = len(models.storage.all(cls).values())
 
