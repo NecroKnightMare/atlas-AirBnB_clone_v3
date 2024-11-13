@@ -12,7 +12,7 @@ import models
 
 
 place_amenity = Table(
-        "place_amenity", Base.metadata
+        "place_amenity", Base.metadata,
         Column(
             "place_id",
             String(60),
