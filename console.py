@@ -6,7 +6,7 @@ which imports and customize the cmd.Cmd class
 
 import cmd
 from console_util import cmd_utils
-from models import storage_type
+
 from models.engine import valid_models
 
 
@@ -17,14 +17,15 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = '(hbnb) '
 
-    def do_storage(self, args):
-        '''
-        output which backend storage system is being used and which database
-        if any
-        '''
-        print("working in {} storage mode".format(storage_type))
-        if storage_type == 'db':
-            print("using database {}".format(db))
+# def do_storage(self, args):
+#     '''
+#     output which backend storage system is being used and which database
+#     if any
+#     '''
+
+#     print("working in {} storage mode".format(storage_type))
+#     if storage_type == 'db':
+#         print("using database {}".format(db))
 
     def do_models(self, args):
         '''
@@ -91,6 +92,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         'delete instance given by the class name and id'
+        from models import storage
         if arg.lower() == 'all':
             # define expunge() for DBStorage and FileStorage
             # and call storage.expunge()
@@ -108,6 +110,7 @@ class HBNBCommand(cmd.Cmd):
         """ outputs string representations for every existing
         instance or for all of a class
         """
+        from models import storage
         obj_list = []
 
         if not args:
@@ -160,6 +163,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def get_instance(self, args):
+        from models import storage
         args = args.split()
         class_name = args[0] if len(args) > 0 else None
         id_num = args[1] if len(args) > 1 else None
