@@ -6,7 +6,7 @@ and handles all default api actions
 
 from api.v1.views import app_views, index
 from flask import Flask, abort, jsonify, request
-from models import storage
+import models
 from models.state import State
 
 

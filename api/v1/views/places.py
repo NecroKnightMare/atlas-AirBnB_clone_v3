@@ -8,7 +8,7 @@ from models.city import City
 from models.user import User
 from api.v1.views import app_views
 from flask import jsonify, request, make_response, abort
-from models import storage
+import models
 
 
 @app_views.route("/cities/<city_id>/places", methods=['GET'],
