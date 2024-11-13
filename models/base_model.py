@@ -25,9 +25,6 @@ class BaseModel:
                 Column: updated_at - timestamp for when object is updated
                     cannot be null
     '''
-
-    from models import storage_type
-    storage_type = storage_type
     # sets the ability to modify the existing table
     __table_args__ = {'extend_existing': True}
 
