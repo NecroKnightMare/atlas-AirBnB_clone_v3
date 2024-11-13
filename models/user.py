@@ -21,7 +21,7 @@ class User(BaseModel, Base):
 
     __tablename__ = 'users'
 
-    if models.storage_type == 'db':
+   # if models.storage_type == 'db':
         email = Column(
                 String(128),
                 nullable=False)
