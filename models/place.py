@@ -6,7 +6,6 @@ Place class that inherits from BaseModel and Base
 from sqlalchemy import Table, Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
-from models.place import place_amenities
 
 
 place_amenity = Table(
