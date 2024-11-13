@@ -6,7 +6,7 @@ which imports and customize the cmd.Cmd class
 
 import cmd
 from console_util import cmd_utils
-import models
+from models import storage
 from models.engine import valid_models
 
 
