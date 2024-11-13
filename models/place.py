@@ -6,7 +6,6 @@ Place class that inherits from BaseModel and Base
 from api.v1.views import amenities
 import models
 from sqlalchemy import Table, Column, String, Integer, Float, ForeignKey
-from sqlalchemy import MetaData
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 import models
@@ -57,7 +56,7 @@ class Place(BaseModel, Base):
     __tablename__ = 'places'
 
     if models.storage_type == 'db':
-        city_id = Column(metadata
+        city_id = Column(
                 String(60),
                 ForeignKey('cities.id'),
                 nullable=False)
