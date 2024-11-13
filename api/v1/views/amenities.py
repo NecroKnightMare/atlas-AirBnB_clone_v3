@@ -10,7 +10,7 @@ from models import storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.base_model import Base
-from sqlAlchemy import Column, String
+from sqlalchemy import Column, String
 import models
 
 class Amenity(BaseModel, Base):
