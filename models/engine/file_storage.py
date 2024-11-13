@@ -4,6 +4,7 @@ this module handles the file storage backend of
 our web service
 """
 
+import models
 import json
 from datetime import datetime
 
