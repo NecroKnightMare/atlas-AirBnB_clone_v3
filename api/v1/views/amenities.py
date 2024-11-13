@@ -25,7 +25,7 @@ class Amenity(BaseModel, Base):
     """
     __tablename__ = 'amenities'
     
-    if 'models' in globals() and models.storage_type == "db":
+    if hasattr(models, 'storage_type') and models.storage_type == "db":
         name = Column(String(128), nullable=False)
     else:
         name = ""
@@ -94,7 +94,7 @@ def create_amenity():
     amenity = Amenity(**json_data)
     amenity.save()
     amenity_json = amenity.to_dict()
-    return jsonify(amenity_json), 201
+    return jsonify(amenity.to_dict()), 201
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["PUT"],
@@ -115,5 +115,4 @@ def update_amenity(amenity_id):
         if key not in ["id", "created_at", "updated_at"]:
             setattr(amenity, key, value)
     storage.save()
-    amenity_json = amenity.to_dict()
     return jsonify(amenity_json), 200
