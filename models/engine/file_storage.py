@@ -120,7 +120,7 @@ class FileStorage:
         """
         count the number of objects in storage
         """
-        all_class = classes.values()
+        all_class = self.__classes.values()
 
         if not cls:
             count = 0
