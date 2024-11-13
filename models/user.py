@@ -22,54 +22,54 @@ class User(BaseModel, Base):
     __tablename__ = 'users'
 
    # if models.storage_type == 'db':
-        email = Column(
-                String(128),
-                nullable=False)
+    email = Column(
+        String(128),
+        nullable=False)
 
-        password = Column(
-                String(128),
-                nullable=False)
+    password = Column(
+        String(128),
+        nullable=False)
 
-        first_name = Column(
-                String(128),
-                nullable=True)
+    first_name = Column(
+        String(128),
+        nullable=True)
 
-        last_name = Column(
-                String(128),
-                nullable=True)
+    last_name = Column(
+        String(128),
+        nullable=True)
 
-        places = relationship(
-                "Place",
-                cascade="all, delete-orphan")
+    places = relationship(
+        "Place",
+        cascade="all, delete-orphan")
 
-        reviews = relationship(
-                "Review",
-                cascade="all, delete-orphan")
+    reviews = relationship(
+        "Review",
+        cascade="all, delete-orphan")
 
-    else:
-        email = ""
-        password = ""
-        first_name = ""
-        last_name = ""
+#     else:
+#         email = ""
+#         password = ""
+#         first_name = ""
+#         last_name = ""
 
-        @property
-        def places(self):
-            from models import storage
-            from models.place import Place
-            all_places = storage.all(Place)
-            user_places = []
-            for place in all_places.values():
-                if place.user_id == self.id:
-                    user_places.append(place)
-            return user_places
+    @property
+    def places(self):
+        from models import storage
+        from models.place import Place
+        all_places = storage.all(Place)
+        user_places = []
+        for place in all_places.values():
+            if place.user_id == self.id:
+                user_places.append(place)
+        return user_places
 
-        @property
-        def reviews(self):
-            from models import storage
-            from models.review import Review
-            all_reviews = storage.all(Review)
-            user_reviews = []
-            for review in all_reviews.values():
-                if review.user_id == self.id:
-                    user_reviews.append(review)
-            return user_reviews
+    @property
+    def reviews(self):
+        from models import storage
+        from models.review import Review
+        all_reviews = storage.all(Review)
+        user_reviews = []
+        for review in all_reviews.values():
+            if review.user_id == self.id:
+                user_reviews.append(review)
+        return user_reviews
