@@ -103,7 +103,7 @@ class FileStorage:
         """ helper method to construct key for object dictionary """
         return type(obj).__name__ + "." + obj.id
 
-        def get(self, cls, id):
+    def get(self, cls, id):
         """
         Returns the object based on the class name and its ID, or
         None if not found
