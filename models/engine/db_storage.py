@@ -27,8 +27,8 @@ def metadata_create_all(engine):
     metadata.create_all(engine)
     return metadata
     
-   # classes = {"Amenity": Amenity, "City": City,
-          # "Place": Place, "Review": Review, "State": State, "User": User}
+    classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
 
 class DBStorage:
     # __objects = {}
@@ -36,9 +36,6 @@ class DBStorage:
     __session = None
     __session_generator = None
     __db_url = None
-
-    classes = {"Amenity": Amenity, "City": City,
-               "Place": Place, "Review": Review, "State": State, "User": User}
 
     def __init__(self):
         env = os.environ.get('HBNB_ENV')
