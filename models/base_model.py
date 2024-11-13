@@ -7,10 +7,12 @@ from datetime import datetime
 from uuid import uuid4
 from sqlalchemy import Column, DateTime, String
 from sqlalchemy.ext.declarative import declarative_base
+import models
 
-
-Base = declarative_base()
-
+if storage_type == "db":
+    Base = declarative_base()
+else:
+    Base = object
 
 class BaseModel:
     '''
