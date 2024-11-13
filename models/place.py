@@ -129,8 +129,8 @@ class Place(BaseModel, Base):
         all_amenities = storage.all(Amenity)
         place_amenities = []
         for amenity in all_menities.values():
-                if amenity.id in amenity_ids:
-                    place_amenities.append(amenity)
+            if amenity.id in amenity_ids:
+                place_amenities.append(amenity)
         return place_amenities
 
     @property
