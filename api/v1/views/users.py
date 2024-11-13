@@ -18,6 +18,7 @@ def get_all_users():
           users_json - all users converted to a list of dictionaries
     Return: a json dictionary containing all user objects
     """
+    from models import storage
     users = storage.all(User).values()
     users_json = [user.to_dict() for user in users]
     return jsonify(users_json)
@@ -31,6 +32,7 @@ def get_user(user_id):
           user_json - user object converted to a dictionary
     Return: a json dictionary containing one user object
     """
+    from models import storage
     user = storage.get(User, user_id)
     if user is None:
         abort(404)  # Bad request
@@ -45,6 +47,7 @@ def delete_user(user_id):
     Args: user - retrieves one user object, based on its user id
     Return: an empty json dictionary
     """
+    from models import storage
     user = storage.get(User, user_id)
     if user is None:
         abort(404)  # Bad request
@@ -63,6 +66,7 @@ def create_user():
           user_json - holds the dictionary of a user object
     Return: a json dictionary containing one user object
     """
+    from models import storage
     json_data = request.get_json(silent=True)
     if not json_data:
         abort(400, "Not a JSON")
@@ -86,6 +90,7 @@ def update_user(user_id):
           user_json - user object converted to a dictionary
     Return: a json dictionary
     """
+    from models import storage
     user = storage.get(User, user_id)
     if not user:
         abort(404)  # Bad request
