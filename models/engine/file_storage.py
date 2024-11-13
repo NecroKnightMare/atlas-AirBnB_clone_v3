@@ -7,9 +7,6 @@ our web service
 import json
 from datetime import datetime
 
-classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
-
 
 class FileStorage:
     __file_path = "file.json"
@@ -31,6 +28,8 @@ class FileStorage:
                 'Amenity': Amenity,
                 'Review': Review
                 }
+        classes = {"Amenity": Amenity, "City": City,
+                "Place": Place, "Review": Review, "State": State, "User": User}
 
     def all(self, search_class=None):
         """ returns a dictionary of objects """
