@@ -56,7 +56,8 @@ class HBNBCommand(cmd.Cmd):
                 return
             else:
                 try:
-                    key_value_dict = cmd_utils.process_key_value_pairs(args[1:])
+                    key_value_dict = cmd_utils.process_key_value_pairs
+                    (args[1:])
                 except ValueError:
                     print("malformed arguments. no record created")
                     return
@@ -64,8 +65,9 @@ class HBNBCommand(cmd.Cmd):
                 unnullables = cmd_utils.unnullables(model_class)
                 for unnullable in unnullables:
                     if unnullable not in key_value_dict.keys():
-                        print("a non-nullable parameter has not been specified."
-                              " no record created\n"
+                        print("a non-nullable parameter has " +
+                              "not been specified." +
+                              " no record created\n " +
                               "non-nullable fields: ",
                               unnullables)
                         return
