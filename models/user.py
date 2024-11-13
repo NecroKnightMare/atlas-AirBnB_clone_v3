@@ -59,7 +59,7 @@ class User(BaseModel, Base):
             all_places = storage.all(Place)
             user_places = []
             for place in all_places.values():
-                if places.user_id == self.id:
+                if place.user_id == self.id:
                     user_places.append(place)
             return user_places
 
