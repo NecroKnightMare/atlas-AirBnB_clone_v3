@@ -27,6 +27,10 @@ class BaseModel:
     '''
     # sets the ability to modify the existing table
     __table_args__ = {'extend_existing': True}
+if models.storage_type == "db":
+    Base = declarative_base()
+else:
+    Base = object
 
     id = Column(
             String(60),
