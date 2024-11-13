@@ -3,6 +3,7 @@
 Place class that inherits from BaseModel and Base
 """
 
+from api.v1.views import amenities
 import models
 from sqlalchemy import Table, Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
@@ -150,4 +151,4 @@ class Place(BaseModel, Base):
         from models import Amenity
         if (isinstance(amenity, Amenity) and
                 amenity.id not in self.amenity_ids):
-            amenity_ids.append(amenity.id)
+            amenities.append(amenity.id)
