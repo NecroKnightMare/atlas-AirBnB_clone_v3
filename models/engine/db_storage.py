@@ -11,9 +11,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.engine import valid_models
 
-classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
-
 def metadata_create_all(engine):
     '''
     all classes that inherit from Base must be
@@ -33,6 +30,8 @@ def metadata_create_all(engine):
 
 class DBStorage:
     # __objects = {}
+    classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
     __engine = None
     __session = None
     __session_generator = None
