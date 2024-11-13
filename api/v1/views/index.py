@@ -13,7 +13,7 @@ from models.user import User
 
 # Here's a dictionary of classes for future use
 classes = {"amenities": Amenity, "cities": City,
-    "places": Place, "reviews": Review, "states": State, "users": User}
+        "places": Place, "reviews": Review, "states": State, "users": User}
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
