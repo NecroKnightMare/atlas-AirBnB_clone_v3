@@ -6,6 +6,7 @@ State class that inherits from BaseModel and Base
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
+import models
 
 
 class State(BaseModel, Base):
@@ -18,7 +19,7 @@ class State(BaseModel, Base):
 
     __tablename__ = "states"
 
-    if BaseModel.storage_type == 'db':
+    if models.storage_type == 'db':
         name = Column(
                 String(128),
                 nullable=False)

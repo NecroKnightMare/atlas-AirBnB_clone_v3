@@ -6,6 +6,7 @@ City class that inherits from BaseModel and Base
 from models.base_model import BaseModel, Base
 from sqlalchemy import ForeignKey, Column, String
 from sqlalchemy.orm import relationship
+import models
 
 
 class City(BaseModel, Base):
@@ -20,7 +21,7 @@ class City(BaseModel, Base):
     """
     __tablename__ = "cities"
 
-    if BaseModel.storage_type == 'db':
+    if models.storage_type == 'db':
         name = Column(
                 String(128),
                 nullable=False)

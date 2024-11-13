@@ -8,6 +8,7 @@ import models
 from sqlalchemy import Table, Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
+import models
 
 
 place_amenity = Table(
@@ -55,7 +56,7 @@ class Place(BaseModel, Base):
 
     __tablename__ = 'places'
 
-    if BaseModel.storage_type == 'db':
+    if models.storage_type == 'db':
         city_id = Column(
                 String(60),
                 ForeignKey('cities.id'),

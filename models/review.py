@@ -6,7 +6,7 @@ Review class that inherits from BaseModel and Base
 
 from models.base_model import BaseModel, Base
 from sqlalchemy import ForeignKey, Column, String
-
+import models
 
 class Review(BaseModel, Base):
     """
@@ -22,7 +22,7 @@ class Review(BaseModel, Base):
     """
     __tablename__ = 'reviews'
 
-    if BaseModel.storage_type == 'db':
+    if models.storage_type == 'db':
         text = Column(
                 String(1024),
                 nullable=False)
