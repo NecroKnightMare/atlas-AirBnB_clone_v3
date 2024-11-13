@@ -4,8 +4,8 @@ This module provides RESTful API actions for Amenity objects.
 It includes routes to retrieve, create, delete, and update amenities.
 """
 from flask import jsonify, abort, request
+from models import storage
 from api.v1.views import app_views
-import models
 from models.amenity import Amenity
 
 @app_views.route('/amenities', methods=['GET'])
