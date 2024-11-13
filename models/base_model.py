@@ -25,6 +25,7 @@ class BaseModel:
                     cannot be null
     '''
 
+
     from models import storage_type
     storage_type = storage_type
     # sets the ability to modify the existing table
