@@ -2,7 +2,7 @@
 """The module conatins the index for the api"""
 from api.v1.views import app_views
 from flask import jsonify
-import models
+from models import storage
 from models.amenity import Amenity
 from models.city import City
 from models.place import Place
@@ -29,8 +29,7 @@ def get_stats():
             "users": User
             }
     return_dict = {}
-    for object in classes:
+    for key, cls in classes.items():
         # print({object})
-        object_dict = {object: storage.count(classes[object])}
-        return_dict.update(object_dict)
+        return_dict[key] = storage.count(cls)
     return jsonify(return_dict)
