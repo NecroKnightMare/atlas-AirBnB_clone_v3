@@ -5,7 +5,7 @@ from os import getenv
 storage_type = getenv('HBNB_TYPE_STORAGE, file')
 
 if storage_type == 'db':
-    from models.engine.db_storage import DBStorage aas Storage
+    from models.engine.db_storage import DBStorage as Storage
     storage = DBStorage()
 else:
     from models.engine.file_storage import FileStorage as Storage
