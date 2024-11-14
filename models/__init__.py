@@ -11,5 +11,5 @@ else:
     from models.engine.file_storage import FileStorage as Storage
     storage = FileStorage()
 
-storage = Storage()
+# storage = Storage()
 storage.reload()
