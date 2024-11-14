@@ -1,7 +1,11 @@
 #!/bin/usr/python3
 from flask import Blueprint
+from models import storage_type
+from models.engine import valid_models
 
 app_views = Blueprint("app_views", __name__, url_prefix="/api/v1")
+storage = storage
+valid_model = valid_models
 
 from api.v1.views.index import *
 from api.v1.views.states import *
