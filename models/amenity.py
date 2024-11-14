@@ -5,7 +5,6 @@ Amenity class that inherits from BaseModel, Base
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from models.place import place_amenity
 
 class Amenity(BaseModel, Base):
     """
