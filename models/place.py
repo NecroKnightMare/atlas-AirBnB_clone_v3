@@ -144,9 +144,14 @@ class Place(BaseModel, Base):
                 place_reviews.append(review)
         return place_reviews
 
+#     @amenities.setter
+#     def amenities(self, amenity):
+#         from models import Amenity
+#         if (isinstance(amenity, Amenity) and
+#                 amenity.id not in self.amenity_ids):
+#             amenities.append(amenity.id)
     @amenities.setter
     def amenities(self, amenity):
-        from models import Amenity
-        if (isinstance(amenity, Amenity) and
-                amenity.id not in self.amenity_ids):
-            amenities.append(amenity.id)
+        from models.amenity import Amenity
+        if isinstance(amenity, Amenity) and amenity.id not in self.amenity_ids:
+            self.amenity_ids.append(amenity.amenity_ids.append(amenity.id)
