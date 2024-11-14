@@ -22,7 +22,7 @@ class Review(BaseModel, Base):
     """
     __tablename__ = 'reviews'
 
-    if models.storage_type == 'db':
+    if BaseModel.storage_type == 'db':
         text = Column(
                 String(1024),
                 nullable=False)

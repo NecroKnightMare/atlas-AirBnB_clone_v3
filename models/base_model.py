@@ -26,11 +26,9 @@ class BaseModel:
                     cannot be null
     '''
     # sets the ability to modify the existing table
+    from models import storage_type
+    storage_type = storage_type
     __table_args__ = {'extend_existing': True}
-if models.storage_type == "db":
-    Base = declarative_base()
-else:
-    Base = object
 
     id = Column(
             String(60),

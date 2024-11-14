@@ -2,11 +2,10 @@
 """
 Amenity class that inherits from BaseModel, Base
 """
-import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-
+from models.place import place_amenity
 
 class Amenity(BaseModel, Base):
     """
@@ -16,7 +15,7 @@ class Amenity(BaseModel, Base):
     """
     __tablename__ = "amenities"
 
-    if models.storage_type == 'db':
+    if BaseModel.storage_type == 'db':
         name = Column(
                 String(128),
                 nullable=False)
@@ -29,6 +28,3 @@ class Amenity(BaseModel, Base):
 
     else:
         name = ""
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)

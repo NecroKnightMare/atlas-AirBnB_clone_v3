@@ -19,7 +19,7 @@ class State(BaseModel, Base):
 
     __tablename__ = "states"
 
-    if models.storage_type == 'db':
+    if BaseModel.storage_type == 'db':
         name = Column(
                 String(128),
                 nullable=False)

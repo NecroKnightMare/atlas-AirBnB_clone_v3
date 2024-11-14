@@ -53,7 +53,7 @@ class Place(BaseModel, Base):
 
     __tablename__ = 'places'
 
-    if models.storage_type == 'db':
+    if BaseModel.storage_type == 'db':
         city_id = Column(
                 String(60),
                 ForeignKey('cities.id'),

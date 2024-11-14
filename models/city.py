@@ -21,7 +21,7 @@ class City(BaseModel, Base):
     """
     __tablename__ = "cities"
 
-    if models.storage_type == 'db':
+    if BaseModel.storage_type == 'db':
         name = Column(
                 String(128),
                 nullable=False)
