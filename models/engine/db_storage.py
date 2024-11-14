@@ -8,6 +8,7 @@ our web service
 import os
 from datetime import datetime
 from sqlalchemy import create_engine
+from sqlalchemy import InvalidRequestError
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.engine import valid_models
 from models.base_model import Base
@@ -146,12 +147,7 @@ class DBStorage:
         Returns the object based on the class and its ID,
         or None if not found.
         """
-        if cls in self.__classes.values():
-            objs = self.all(cls)
-            for obj in objs.values():
-                if obj.id == id:
-                    return obj
-        return None
+        return self.__session(cls, id)
 
     def count(self, cls=None):
         """
