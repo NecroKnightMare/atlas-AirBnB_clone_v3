@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
-from os import getenv
-from models import storage
+import os
+import storage
 
-storage_type = getenv('HBNB_TYPE_STORAGE, file')
+storage_type = os.environ.get('HBNB_TYPE_STORAGE, file')
+db = os.environ.get('HBNB_ENV', 'test')
 
 if storage_type == 'db':
     from models.engine.db_storage import DBStorage as Storage
