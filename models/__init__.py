@@ -3,7 +3,6 @@
 from os import getenv
 
 storage_type = getenv('HBNB_TYPE_STORAGE, file')
-db = getenv('HBNB_ENV, 'dev')
 
 if storage_type == 'db':
     from models.engine.db_storage import DBStorage aas Storage
