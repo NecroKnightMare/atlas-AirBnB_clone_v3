@@ -2,7 +2,6 @@
 """
 Place class that inherits from BaseModel and Base
 """
-from api.v1.views import amenities
 from sqlalchemy import Table, Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
