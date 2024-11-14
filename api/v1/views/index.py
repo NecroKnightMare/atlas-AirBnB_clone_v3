@@ -2,7 +2,6 @@
 """The module conatins the index for the api"""
 from api.v1.views import app_views
 from flask import jsonify
-import models
 from models.amenity import Amenity
 from models.city import City
 from models.place import Place
@@ -20,6 +19,7 @@ def status():
 @app_views.route('/stats', strict_slashes=False, methods=['GET'])
 def get_stats():
     """returns counts of the different objects"""
+    from models import storage
     classes = {
             "amenities": Amenity,
             "cities": City,
