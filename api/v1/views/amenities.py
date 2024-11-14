@@ -48,8 +48,7 @@ def create_amenity():
     if 'name' not in data:
         abort(400, description="Missing name")
     new_amenity = Amenity(**data)
-    storage.new(new_amenity)
-    storage.save()
+    new_amenity.save()
     return jsonify(new_amenity.to_dict()), 201
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
@@ -65,5 +64,6 @@ def update_amenity(amenity_id):
     for key, value in data.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(amenity, key, value)
-    storage.save()
+    amenity.save()
     return jsonify(amenity.to_dict()), 200
+    
