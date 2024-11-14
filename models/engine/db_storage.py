@@ -1,167 +1,276 @@
+# #!/usr/bin/python3
+# """
+# this module handles the mysql database storage backend of
+# our web service
+# """
+
+
+# import os
+# from datetime import datetime
+# from sqlalchemy import create_engine
+# from sqlalchemy.orm import sessionmaker, scoped_session
+# from models.engine import valid_models
+# from models.base_model import Base
+# from models.user import User
+# from models.state import State
+# from models.city import City
+# from models.place import Place
+# from models.amenity import Amenity
+# from models.review import Review
+
+
+# def metadata_create_all(engine):
+#     '''
+#     all classes that inherit from Base must be
+#     imported before calling create_all()
+#     '''
+#     metadata = Base.metadata
+#     metadata.create_all(engine)
+#     return metadata
+
+
+# class DBStorage:
+#     # __objects = {}
+#     __engine = None
+#     __session = None
+#     __session_generator = None
+#     __db_url = None
+
+#     def __init__(self):
+#         env = os.environ.get('HBNB_ENV')
+#         env_user = os.environ.get('HBNB_MYSOL_USER', 'hbnb_dev')
+#         env_user_pwd = os.environ.get('HBNB_MYSOL_PWD', 'hbnb_dev_pwd')
+#         env_host = os.environ.get('HBNB_MYSOL_HOST', 'localhost')
+#         env_db = os.environ.get('HBNB_MYSOL_DB', 'hbnb_dev_db')
+
+#         self.__db_url = "mysql+mysqldb://{}:{}@{}/{}".format(
+#                 env_user, env_user_pwd, env_host, env_db)
+#         self.__classes = {
+#             'User': User,
+#             'State': State,
+#             'City': City,
+#             'Place': Place,
+#             'Amenity': Amenity,
+#             'Review': Review
+#             }
+
+#         self.__engine = create_engine(self.__db_url, pool_pre_ping=True)
+#         metadata = metadata_create_all(self.__engine)
+#         self.__session_generator = sessionmaker(
+#                 self.__engine, expire_on_commit=False)
+#         self.__session_generator = scoped_session(self.__session_generator)
+
+#         if env == "test":
+#             metadata.drop_all(self.__engine)
+#         self.__session = self.__session_generator()
+
+#     def all(self, search_class=None):
+
+#         """
+#         returns a dictionary of objects based on the class given
+#         """
+#         # call self.save() first?
+#         results = {}
+#         if search_class is None:
+#             for table in valid_models().values():
+#                 query = self.__session.query(table)
+#                 query = self.construct_dict(query)
+#                 results.update(query)
+#             return results
+#         else:
+#             query = self.__session.query(search_class)
+#             return self.construct_dict(query)
+
+#     def new(self, obj):
+#         """
+#         adds a new object to the dictionary object with
+#         the key string <class>.<id>
+#         """
+#         # this might just be enough, since obj would
+#         # presumably already be mapped to the database table
+#         self.__session.add(obj)
+
+#     def save(self):
+#         """
+#         save all changes onto to the database
+#         """
+#         self.__session.commit()
+
+#     def reload(self):
+#         """
+#         expire session and reload a new one
+#         """
+#         try:
+#             self.__session.close()
+#         except InvalidRequestError:
+#             pass
+#         # create all tables in the database (sqlalchemy)
+#         # use Session.refresh() ?
+#         metadata_create_all(self.__engine)
+#         self.__session = self.__session_generator()
+
+#     def delete(self, obj=None):
+#         """
+#         remove the given object from __objects if it exist within
+#         if nothing is given do nothing
+#         """
+#         if obj is None:
+#             return
+#         else:
+#             ObjClass = type(obj)
+#             (self
+#              .__session
+#              .query(ObjClass)
+#              .filter(ObjClass.id == obj.id)
+#              .delete(synchronize_session=False))
+#             self.save()
+
+#     def close(self):
+#         self.__session.close()
+
+#     def construct_key(self, obj):
+#         """
+#         helper method to construct key for object dictionary
+#         """
+#         return type(obj).__name__ + "." + obj.id
+
+#     def construct_dict(self, query_records):
+#         dictionary = {}
+#         for entry in query_records:
+#             key = self.construct_key(entry)
+#             dictionary.update({key: entry})
+#         return dictionary
+
+#     def get(self, cls, id):
+#         """
+#         Returns the object based on the class and its ID,
+#         or None if not found.
+#         """
+#         if cls in self.__classes.values():
+#             objs = self.all(cls)
+#             for obj in objs.values():
+#                 if obj.id == id:
+#                     return obj
+#         return None
+
+#     def count(self, cls=None):
+#         """
+#         Returns the number of objects in storage matching the given class.
+#         If no class is passed, returns the count of all objects in storage.
+#         """
+#         if cls is None:
+#             count = 0
+#             for clas in self.__classes.values():
+#                 count += self.__session.query(clas).count()
+#             return count
+#         else:
+#             return self.__session.query(cls).count()
 #!/usr/bin/python3
 """
-this module handles the mysql database storage backend of
-our web service
+Contains the class DBStorage
 """
 
-
-import os
-from datetime import datetime
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
-from models.engine import valid_models
-from models.base_model import Base
-from models.user import User
-from models.state import State
+import models
+from models.amenity import Amenity
+from models.base_model import BaseModel, Base
 from models.city import City
 from models.place import Place
-from models.amenity import Amenity
 from models.review import Review
+from models.state import State
+from models.user import User
+from os import getenv
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
-
-def metadata_create_all(engine):
-    '''
-    all classes that inherit from Base must be
-    imported before calling create_all()
-    '''
-    metadata = Base.metadata
-    metadata.create_all(engine)
-    return metadata
+classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
 
 
 class DBStorage:
-    # __objects = {}
+    """interaacts with the MySQL database"""
     __engine = None
     __session = None
-    __session_generator = None
-    __db_url = None
 
     def __init__(self):
-        env = os.environ.get('HBNB_ENV')
-        env_user = os.environ.get('HBNB_MYSOL_USER', 'hbnb_dev')
-        env_user_pwd = os.environ.get('HBNB_MYSOL_PWD', 'hbnb_dev_pwd')
-        env_host = os.environ.get('HBNB_MYSOL_HOST', 'localhost')
-        env_db = os.environ.get('HBNB_MYSOL_DB', 'hbnb_dev_db')
+        """Instantiate a DBStorage object"""
+        HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
+        HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
+        HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
+        HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
+        HBNB_ENV = getenv('HBNB_ENV')
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+                                      format(HBNB_MYSQL_USER,
+                                             HBNB_MYSQL_PWD,
+                                             HBNB_MYSQL_HOST,
+                                             HBNB_MYSQL_DB))
+        if HBNB_ENV == "test":
+            Base.metadata.drop_all(self.__engine)
 
-        self.__db_url = "mysql+mysqldb://{}:{}@{}/{}".format(
-                env_user, env_user_pwd, env_host, env_db)
-        self.__classes = {
-            'User': User,
-            'State': State,
-            'City': City,
-            'Place': Place,
-            'Amenity': Amenity,
-            'Review': Review
-            }
-
-        self.__engine = create_engine(self.__db_url, pool_pre_ping=True)
-        metadata = metadata_create_all(self.__engine)
-        self.__session_generator = sessionmaker(
-                self.__engine, expire_on_commit=False)
-        self.__session_generator = scoped_session(self.__session_generator)
-
-        if env == "test":
-            metadata.drop_all(self.__engine)
-        self.__session = self.__session_generator()
-
-    def all(self, search_class=None):
-
-        """
-        returns a dictionary of objects based on the class given
-        """
-        # call self.save() first?
-        results = {}
-        if search_class is None:
-            for table in valid_models().values():
-                query = self.__session.query(table)
-                query = self.construct_dict(query)
-                results.update(query)
-            return results
-        else:
-            query = self.__session.query(search_class)
-            return self.construct_dict(query)
+    def all(self, cls=None):
+        """query on the current database session"""
+        new_dict = {}
+        for clss in classes:
+            if cls is None or cls is classes[clss] or cls is clss:
+                objs = self.__session.query(classes[clss]).all()
+                for obj in objs:
+                    key = obj.__class__.__name__ + '.' + obj.id
+                    new_dict[key] = obj
+        return (new_dict)
 
     def new(self, obj):
-        """
-        adds a new object to the dictionary object with
-        the key string <class>.<id>
-        """
-        # this might just be enough, since obj would
-        # presumably already be mapped to the database table
+        """add the object to the current database session"""
         self.__session.add(obj)
 
     def save(self):
-        """
-        save all changes onto to the database
-        """
+        """commit all changes of the current database session"""
         self.__session.commit()
 
-    def reload(self):
-        """
-        expire session and reload a new one
-        """
-        try:
-            self.__session.close()
-        except InvalidRequestError:
-            pass
-        # create all tables in the database (sqlalchemy)
-        # use Session.refresh() ?
-        metadata_create_all(self.__engine)
-        self.__session = self.__session_generator()
-
     def delete(self, obj=None):
-        """
-        remove the given object from __objects if it exist within
-        if nothing is given do nothing
-        """
-        if obj is None:
-            return
-        else:
-            ObjClass = type(obj)
-            (self
-             .__session
-             .query(ObjClass)
-             .filter(ObjClass.id == obj.id)
-             .delete(synchronize_session=False))
-            self.save()
+        """delete from the current database session obj if not None"""
+        if obj is not None:
+            self.__session.delete(obj)
+
+    def reload(self):
+        """reloads data from the database"""
+        Base.metadata.create_all(self.__engine)
+        sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(sess_factory)
+        self.__session = Session
 
     def close(self):
-        self.__session.close()
-
-    def construct_key(self, obj):
-        """
-        helper method to construct key for object dictionary
-        """
-        return type(obj).__name__ + "." + obj.id
-
-    def construct_dict(self, query_records):
-        dictionary = {}
-        for entry in query_records:
-            key = self.construct_key(entry)
-            dictionary.update({key: entry})
-        return dictionary
+        """call remove() method on the private session attribute"""
+        self.__session.remove()
 
     def get(self, cls, id):
         """
-        Returns the object based on the class and its ID,
-        or None if not found.
+        Returns the object based on the class name and its ID, or
+        None if not found
         """
-        if cls in self.__classes.values():
-            objs = self.all(cls)
-            for obj in objs.values():
-                if obj.id == id:
-                    return obj
+        if cls not in classes.values():
+            return None
+
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if (value.id == id):
+                return value
+
         return None
 
     def count(self, cls=None):
         """
-        Returns the number of objects in storage matching the given class.
-        If no class is passed, returns the count of all objects in storage.
+        count the number of objects in storage
         """
-        if cls is None:
+        all_class = classes.values()
+
+        if not cls:
             count = 0
-            for clas in self.__classes.values():
-                count += self.__session.query(clas).count()
-            return count
+            for clas in all_class:
+                count += len(models.storage.all(clas).values())
         else:
-            return self.__session.query(cls).count()
+            count = len(models.storage.all(cls).values())
+
+        return count
+
+
+storage = DBStorage()
