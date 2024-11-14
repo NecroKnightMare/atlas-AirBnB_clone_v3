@@ -11,17 +11,6 @@ from models.state import State
 from models.user import User
 
 
-# Here's a dictionary of classes for future use
-classes = {
-            "amenities": Amenity,
-            "cities": City,
-            "places": Place,
-            "reviews": Review,
-            "states": State,
-            "users": User
-            }
-
-
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
     """returns the status of the api"""
@@ -31,6 +20,14 @@ def status():
 @app_views.route('/stats', strict_slashes=False, methods=['GET'])
 def get_stats():
     """returns counts of the different objects"""
+    classes = {
+            "amenities": Amenity,
+            "cities": City,
+            "places": Place,
+            "reviews": Review,
+            "states": State,
+            "users": User
+            }
     return_dict = {}
     for object in classes:
         # print({object})
